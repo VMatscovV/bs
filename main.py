@@ -11,9 +11,9 @@ def quicksort(param, fst, lst):
     q = data[param][random.randint(fst, lst)]
 
     while i <= j:
-        while data[param][i] < q:
+        while data[param][i] > q:
             i += 1
-        while data[param][j] > q:
+        while data[param][j] < q:
             j -= 1
         if i <= j:
             for l in range(7):
@@ -25,7 +25,6 @@ def quicksort(param, fst, lst):
 
 
 def read_csv(filename):
-    bd = [[], [], [], [], [], [], []]
     with codecs.open(filename, "r", "utf_8_sig") as fileObj:
         fileObj.readline()
         for line in fileObj:
@@ -34,42 +33,54 @@ def read_csv(filename):
             if check_input(ms):
                 for item in ms:
                     if i == 0 or i > 3:
-                        bd[i].append(int(item))
+                        data[i].append(int(item))
                     else:
-                        bd[i].append(item)
+                        data[i].append(item)
                     i += 1
-    return bd
 
 
-def total_income(arr):
+def total_income(param):
     summ = 0
-    for i in arr:
+    for i in data[param]:
         summ += i
     return summ
 
 
-def indexmaxval(arr):
+def maxval(param):
     mx = 0
-    ind = 0
-    for i in range(len(arr)):
-        if arr[i] > mx:
-            mx = arr[i]
-            ind = i
-    return ind
+    for i in range(len(data[param])):
+        if data[param][i] > mx:
+            mx = data[param][i]
+    return mx
 
 
 def report():
-    total = total_income(data[6])
-    print("--- Общая выручка:", total)
-    print("--- Продано:")
+
+    my_file = open("report.txt", "w+")
+
+    total = total_income(6)
+    my_file.write("--- Общая выручка: %s\n" % total)
+
+    my_file.write("\n--- Товар, который продан наибольшее количество раз:\n")
+    for i in search(maxval(4), 4):
+        my_file.write("------ %s\n" % i[2])
+
+    my_file.write("\n--- Товар, который принёс наибольшую выручку:\n")
+    for i in search(maxval(6), 6):
+        my_file.write("------ %s\n" % i[6])
+
+    quicksort(6, 0, len(data[6]) - 1)
+
+    my_file.write("\n--- Продано:\n")
     for i in range(len(data[0])):
-        print("------", data[2][i], ";", data[4][i], "шт;", int(data[6][i] / total * 10000) / 100, "% от общей выручки")
+        my_file.write("------ %s ; %s шт; %s %s от общей выручки\n" % (data[2][i], data[4][i], int(data[6][i] / total * 10000) / 100, "%"))
 
+    my_file.close()
 
-def search(el):
+def search(el, param):
     result = []
     for i in range(len(data[0])):
-        if el == data[0][i] or el == data[1][i] or el == data[2][i] or el == data[3][i]:
+        if el == data[param][i]:
             obj = []
             for j in range(7):
                 obj.append(data[j][i])
@@ -84,8 +95,10 @@ def delete(el):
                 data[j].pop(i)
             break
 
+
 def check_input(arr):
-        return int(arr[6]) == int(arr[4])*int(arr[5]) or search(arr[0]) == [] or check_date(arr[1])
+    return int(arr[6]) == int(arr[4]) * int(arr[5]) or search(arr[0], 0) == [] or check_date(arr[1])
+
 
 def check_date(date):
     try:
@@ -94,28 +107,7 @@ def check_date(date):
     except ValueError:
         return False
 
-
-data = [[]]
-data = read_csv("table.csv")
-
-print(data)
-
-print(total_income(data[6]))
-
-print(data[2][indexmaxval(data[4])])
-
-print(data[2][indexmaxval(data[6])])
-
-report()
-
-print(data)
-
-print(search('04.11.2022'))
-
-delete(5004)
-
-print(search('04.11.2022'))
-
-quicksort(6, 0, len(data[6]) - 1)
-
-print(data)
+if __name__ == '__main__':
+    data = [[], [], [], [], [], [], []]
+    read_csv("table.csv")
+    report()
