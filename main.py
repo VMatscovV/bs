@@ -67,13 +67,13 @@ def report():
 
     my_file.write("\n--- Товар, который принёс наибольшую выручку:\n")
     for i in search(maxval(6), 6):
-        my_file.write("------ %s\n" % i[6])
+        my_file.write("------ %s\n" % i[2])
 
     quicksort(6, 0, len(data[6]) - 1)
 
     my_file.write("\n--- Продано:\n")
     for i in range(len(data[0])):
-        my_file.write("------ %s ; %s шт; %s %s от общей выручки\n" % (data[2][i], data[4][i], int(data[6][i] / total * 10000) / 100, "%"))
+        my_file.write("------ %s; %s шт; %s %s от общей выручки\n" % (data[2][i], data[4][i], int(data[6][i] / total * 10000) / 100, "%"))
 
     my_file.close()
 
