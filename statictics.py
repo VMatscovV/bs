@@ -1,6 +1,6 @@
 from data import data
-from quicksort import quicksort
-from sud import search
+from quicksort import quicksort_data
+from sud import search, binary_search
 
 def total_income(param):
     summ = 0
@@ -27,11 +27,10 @@ def report():
     for i in search(maxval(4), 4):
         my_file.write("------ %s\n" % i[2])
 
-    my_file.write("\n--- Товар, который принёс наибольшую выручку:\n")
-    for i in search(maxval(6), 6):
-        my_file.write("------ %s\n" % i[2])
+    quicksort_data(6, 0, len(data[6]) - 1)
 
-    quicksort(6, 0, len(data[6]) - 1)
+    my_file.write("\n--- Товар, который принёс наибольшую выручку:\n")
+    my_file.write("------ %s\n" % data[2][binary_search(data[6], maxval(6))])
 
     my_file.write("\n--- Продано:\n")
     for i in range(len(data[0])):

@@ -1,6 +1,8 @@
 from data import data
 import codecs
-import  datetime
+import datetime
+from binary_search import binary_search
+
 
 def check_sum(arr):
     return int(arr[6]) == int(arr[4]) * int(arr[5])
@@ -16,6 +18,7 @@ def check_date(date):
         return True
     except:
         return False
+
 
 def read_csv(filename):
     with codecs.open(filename, "r", "utf_8_sig") as fileObj:
@@ -42,6 +45,7 @@ def new_input(ms):
         else:
             data[i].append(item)
         i += 1
+
 
 def search(el, param):
     result = []
