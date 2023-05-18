@@ -1,5 +1,3 @@
-from quicksort import quicksort
-
 def binary_search(arr, elem):
     low = 0
     high = len(arr) - 1
