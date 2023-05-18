@@ -10,5 +10,4 @@ def binary_search(arr, elem):
             high = middle - 1
         else:
             low = middle + 1
-
     return -1
